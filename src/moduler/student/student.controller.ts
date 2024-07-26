@@ -1,7 +1,7 @@
-import express, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { StudentServices } from './student.service';
 
-const allStudents = async (req: Request, res: Response) => {
+const allStudents = async (res: Response) => {
   try {
     const result = await StudentServices.getAllStudentDataFromDB();
     res.status(200).json({
@@ -12,7 +12,7 @@ const allStudents = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(200).json({
       success: false,
-      message: 'Student data fetch successfully hello azad',
+      message: err,
       data: null,
     });
   }
@@ -28,10 +28,14 @@ const createStudent = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'Student created is successfully hello there',
-      data: null,
+      data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(200).json({
+      success: true,
+      message: err,
+      data: null,
+    });
   }
 };
 

@@ -14,30 +14,28 @@ app.use(cors());
 app.use('/api/v1/students', StudentRoutes);
 
 app.get('/azad', (req: Request, res: Response) => {
-  try{
+  try {
     res.status(200).json({
       success: true,
-      message: "connected success",
-      data: 'azad called'
+      message: 'connected success',
+      data: 'azad called',
     });
-  }catch(err){
+  } catch (err) {
     res.status(200).json({
       success: false,
       message: err,
-      data: 'azad called'
+      data: 'azad called',
     });
   }
-
 });
 app.get('/test', (req: Request, res: Response) => {
   const a = 10;
 
-   res.status(200).json({
+  res.status(200).json({
     success: true,
-    message: "connected success",
-    data: a
+    message: 'connected success',
+    data: a,
   });
 });
-
 
 export default app;
