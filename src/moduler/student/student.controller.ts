@@ -22,6 +22,7 @@ const createStudent = async (req: Request, res: Response) => {
   try {
     //receive user requested form data
     const formData = req.body;
+    //data validation using zod
     const parseData = studentValidateSchema.parse(formData);
     //services function call
     const result = await StudentServices.createStudentIntoDB(parseData);
@@ -32,10 +33,10 @@ const createStudent = async (req: Request, res: Response) => {
       message: 'Student created is successfully hello there',
       data: result,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(200).json({
-      success: true,
-      message: err,
+      success: false,
+      message: err.message || 'something went wrong!',
       data: null,
     });
   }

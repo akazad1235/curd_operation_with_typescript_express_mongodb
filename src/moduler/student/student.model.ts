@@ -1,14 +1,14 @@
 import { Schema, model } from 'mongoose';
-import { Guardian, Name, Student } from './student.interface';
+import { StudentMethods, StudentModel, TGuardian, TName, TStudent } from './student.interface';
 
 //create sub user name schema
-const userNameSchema = new Schema<Name>({
+const userNameSchema = new Schema<TName>({
   firstName: { type: String, required: true },
   middleName: { type: String },
   lastName: { type: String, required: true },
 });
 // create sub schema for guardian
-const guardianSchema = new Schema<Guardian>({
+const guardianSchema = new Schema<TGuardian>({
   fatherName: { type: String, required: true },
   fatherContactNo: { type: String, required: true },
   fatherOccupation: { type: String, required: true },
@@ -18,7 +18,7 @@ const guardianSchema = new Schema<Guardian>({
 });
 
 //create main student schema
-const studentSchema = new Schema<Student>({
+const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
   id: { type: String, required: true },
   name: userNameSchema,
   gender: { type: String, required: true },
@@ -33,6 +33,11 @@ const studentSchema = new Schema<Student>({
   profileImage: { type: String, required: true },
   isActive: ['active', 'inactive'],
 });
+// check existing user
+studentSchema.methods.isUserExists = async function (id: string) {
+  const existingUser = await Student.findOne({ id: id });
+  return existingUser;
+};
 
 // create a model
-export const StudentModel = model<Student>('Student', studentSchema);
+export const Student = model<TStudent, StudentModel>('Student', studentSchema);
