@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { StudentServices } from './student.service';
+import studentValidateSchema from './student.validate';
 
 const allStudents = async (res: Response) => {
   try {
@@ -21,8 +22,9 @@ const createStudent = async (req: Request, res: Response) => {
   try {
     //receive user requested form data
     const formData = req.body;
+    const parseData = studentValidateSchema.parse(formData);
     //services function call
-    const result = await StudentServices.createStudentIntoDB(formData);
+    const result = await StudentServices.createStudentIntoDB(parseData);
 
     //response send to user
     res.status(200).json({
